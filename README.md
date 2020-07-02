@@ -14,14 +14,17 @@ Graphic editor for the commands.
 
 Base Classes and API load functions.
 
-***EVS.Instance (class)***
+***EVSInstance (class)***
 
 Each instance can execute a script and contains variables for the script.
 
-***EVS.Command (abstract class)***
+***EVSCommandType (class)***
 
 EduVideoScript Command Type.
-Contains description, parameter name and type list and execute function. 
+Contains name, description, parameter name and type list and EVSCommand build function. 
+
+***EVSCommand (abstract class)***
+Contains Command Type, parameter, if running.
 
 
 ### commands.js

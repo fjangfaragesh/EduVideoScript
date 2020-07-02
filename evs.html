@@ -3,13 +3,43 @@
         <title>EduVideoScript</title>
         <meta charset="utf-8"/>
         <script type="text/javascript" src="evs.js"></script>
-        <!-- script type="text/javascript" src="https://code.responsivevoice.org/responsivevoice.js?key=eKksbM0y"></script-->
+        <script type="text/javascript" src="commands.js"></script>
         <script type="text/javascript">
 "use strict";
-//TODO load responsivevoice api key and load apis
+
+const RESPONSIVE_VOICE_API_KEY = "eKksbM0y";
+
+let evsi = new EVSInstance();
+let userCommands = [
+    ["say",{"text":"no program loaded"}]
+];
+
+
+onload = async function() {
+    await loadResponsiveVoiceAPI(RESPONSIVE_VOICE_API_KEY);
+    document.getElementById("evsContent").innerHTML = "ready!";
+    document.getElementById("startButton").disabled = false;
+    document.getElementById("stopButton").disabled = false;
+}
+
+async function testMe() {
+    await evsi.runCommands(EVSCommandType.parseCommands(COMMAND_TYPES,userCommands));
+}
+
+
+window.addEventListener('message', function(e) {
+    let d = JSON.parse(e.data);
+    if (d.command == "loadCode") {
+        userCommands = d.code;
+    }
+});
+
+
         </script>
     </head>
     <body>
-        <p id="evsContent"></p>
+        <p id="evsContent">loading...</p>
+        <input type="button" id="startButton" value="start" onclick="testMe()" disabled/><br/>
+        <input type="button" id="stopButton" value="stop" onclick="evsi.stop()" disabled/>
     </body>
 </html>
