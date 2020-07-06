@@ -11,69 +11,6 @@ function sleep(ms) {
 
 
 
-/*
- * https://developers.google.com/youtube/iframe_api_reference
- */
-async function loadYouTubeIframeAPI() {
-    if (typeof YT !== "undefined") throw new Error("YouTube iframe API already loaded");
-    let tag = document.createElement('script');
-    tag.src = YOUTUBE_IFRAME_API_LINK;
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    await new Promise(function (resolve,reject) {
-        onYouTubeIframeAPIReady = resolve;
-    });
-    onYouTubeIframeAPIReady = function() {throw new Error("it is forbidden to call onYouTubeIframeAPIReady!")};
-}
-
-// the youtube api calls this function. The promise in loadYouTubeIframeAPI overwrites the function and resolve
-var onYouTubeIframeAPIReady = function() {
-    throw new Error("overwriting of onYouTubeIframeAPIReady in loadYouTubeIframeAPI() has not worked");
-} 
-
-
-
-
-/*
- * https://responsivevoice.org/api/
- */
-async function loadResponsiveVoiceAPI(apiKey) {
-    if (apiKey === undefined) throw new Error("missing responsiveVoice api key");
-    if (typeof responsiveVoice !== "undefined") throw new Error("responsiveVoice API already loaded");
-    let tag = document.createElement('script');
-    tag.src = RESPONSIVE_VOICE_API_LINK + "?key=" + apiKey;
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    await new Promise(async function (resolve,reject) {
-        while (typeof responsiveVoice !== "object") await sleep(1000); //TODO better solution?
-        responsiveVoice.init();
-        resolve();
-    });
-}
-
-
-// resolve promise, when speack starts
-async function speakAsyncStart(text,lang,parameter) {
-    if (typeof parameter !== "object" || parameter === null) parameter = {};
-    await new Promise(function (resolve,reject) {
-        parameter.onstart = resolve;
-        responsiveVoice.speak(text,lang,parameter);
-    });
-}
-
-// resolve promise, when speack ends
-async function speakAsyncEnd(text,lang,parameter) {
-    if (typeof parameter !== "object" || parameter === null) parameter = {};
-    await new Promise(function (resolve,reject) {
-        parameter.onend = resolve;
-        responsiveVoice.speak(text,lang,parameter);
-    });
-}
-
-function stopVoice() {
-    responsiveVoice.cancel();
-}
-
 
 class EVSInstance {
     constructor() {
@@ -85,7 +22,7 @@ class EVSInstance {
         if (this._currentCommand !== undefined) throw new Error("EVSInstance can only run one command at the same time");
         this._currentCommand = cmnd;
         let stopCountOld = this._stopsCount;
-        await cmnd.run();
+        await cmnd.run(this);
         if (stopCountOld != this._stopsCount) return false;// returns false, if command was stoped
         this._currentCommand = undefined;
         return true;
@@ -101,7 +38,15 @@ class EVSInstance {
             if (!await this.runCommand(cmnd)) break;
         }
     }
+    getVar(name) {
+        return this._variables[name];
+    }
+    setVar(name,value) {
+        this._variables[name] = value;
+    }
 }
+
+
 
 class EVSCommandType {
 
@@ -186,9 +131,10 @@ EVSParameterInfo.CHECK_FUNCTION.NUMBER = function(v) {
 }
 
 // trys to convert the input to Integer
-EVSParameterInfo.CHECK_FUNCTION.TO_INT = function(v) {
-    let n = Math.floor(v*1);
+EVSParameterInfo.CHECK_FUNCTION.INT = function(v) {
+    let n = v*1;
     if (isNaN(v)) throw new Error(v + " is not a number");
+    if (n%1 != 0) throw new Error(n + " is not a integer");
     return n;
 }
 
@@ -200,17 +146,21 @@ EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN = function(mini,maxi) {
     return function(v) {
         let n = v*1;
         if (isNaN(v)) throw new Error(v + " is not a number");
-        if (n < mini || n > maxi) throw new Error(n + " is not between " + mini + " " + maxi);
+        if (n < mini || n > maxi) {
+            throw new Error(n + " is not between " + mini + " " + maxi);
+            console.log(n,mini,maxi);
+        }
         return n;
     };
 }
 
 // creates function which converts the input to a integer and checks, if the number is between mini and maxi (or equal) 
-EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_TO_INT = function(mini,maxi) {
+EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT = function(mini,maxi) {
     return function(v) {
-        let n = Math.floor(v*1);
+        let n = v*1;
         if (isNaN(v)) throw new Error(v + " is not a number");
-        if (n <= mini || n >= maxi) throw new Error(n + " is not between " + mini + " " + maxi);
+        if (n%1 != 0) throw new Error(n + " is not a integer");
+        if (n < mini || n > maxi) throw new Error(n + " is not between " + mini + " " + maxi);
         return n;
     };
 }

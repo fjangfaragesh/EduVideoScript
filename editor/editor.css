@@ -1,0 +1,199 @@
+html {
+    width:100%;
+    height:100%;
+    max-width:100%;
+    max-height:100%;
+}
+body {
+    width:100%;
+    height:100%;
+    max-width:100%;
+    max-height:100%;
+
+    margin:0px;
+    display:flex;
+    flex-direction: column;
+}
+
+
+
+.header {
+    display:flex;
+    flex-direction: row;
+}
+
+.headerButton {
+    padding:10px;
+    background-color:#8866FF;
+    transition: linear 100ms;
+    border: 0.2px solid #6644AA;
+    flex-grow:1;
+}
+.headerButton:hover {
+    background-color:#8800FF;
+}
+.headerButton:active {
+    background-color:#3300FF;
+}
+.headerButtonSelected {
+    padding:10px;
+    background-color:#4400FF;
+    transition: linear 100ms;
+    border: 0.2px solid #6644AA;
+    flex-grow:1;
+}
+.headerButtonSelected:hover {
+    background-color:#3300FF;
+}
+.headerButtonSelected:active {
+    background-color:#3300FF;
+}      
+
+.mainField {
+    flex-grow:1;
+    width:100%;
+    
+    display:flex;
+    flex-direction: column;
+    
+    overflow:hidden;
+}
+.gEditorDiv {
+    flex-grow:2;
+    
+    display:flex;
+    flex-direction: row;
+    
+    height:100%;
+    
+    overflow:hidden;
+}
+
+
+.commandTypeListDiv {
+    width:30%;
+    background-color:#ffffff;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid black;
+}
+
+.codeBuildDiv {
+    background-color:#ffffff;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid black;
+
+    flex-grow:3;
+    
+    display:flex;
+    flex-direction: column;
+}
+
+.jsonEditorArea {
+    width:100%;
+    background-color:#EEFFEE;
+    color:#000022;
+    font-size:12;
+    flex-grow:2;
+    resize: none;
+    transition:0s;
+    border: none;
+}
+.jsonEditorAreaError {
+    width:100%;
+    font-size:12;
+    flex-grow:2;
+    resize: none;
+    background-color:#EEFFEE;
+    color:#770000;
+    transition:1s ease-in;
+    border: none;
+}
+
+.iframe {
+    flex-grow:2;
+    background-color:#FFFFFF;
+}
+
+.codeDropDiv {
+    width: 100%;
+    min-height: 20px;
+    transition: 0.5s ease-out;
+}
+.codeDropDivActive {
+    width: 100%;
+    min-height: 20px;
+    background-color:rgba(0,0,0,0.5);
+    transition: 0.25s ease-out;
+}
+
+.trashCan {
+    margin: 3px 30px 3px 30px;
+    padding: 20px 2px;
+    border-radius:5px;
+    background-color:#FFFFFF;
+    border: 2px solid black;
+    transition: 2s ease-out;
+}
+.trashCanActive {
+    margin: 3px 30px 3px 30px;
+    padding: 20px 2px;
+    border-radius:5px;
+    background-color:#FF0000;
+    border: 2px solid black;
+    transition: 0.25s ease-out;
+}
+
+.codeLine {
+    inner-width:100%;
+    margin: 3px 30px 3px 30px;
+    padding: 0px 0px 5px 0px;
+    background-color: #ffffff;
+    border-radius:10px;
+    border: 2px solid black;
+
+}
+
+.paraValueInput {
+    width:80%;
+    background-color:rgba(0,0,0,0);
+    font-size:16;
+    color:black;
+    font-weight:bold;
+    border: 1px solid black;
+    transition: 0.25s ease-in;
+}
+
+.paraValueInputError {
+    width:80%;
+    background-color:rgba(255,100,100,0.25);
+    color:#EE0000;
+    font-size:16;
+    font-weight:bold;
+    border: 1px solid black;
+    transition: 2s ease-in;
+}
+
+.paraTitle {
+    width:20%;
+    background-color:rgba(0,0,0,0);
+    font-size:16;
+    font-weight:bold;
+    border: 1px solid black;
+}
+
+.commandNameDiv {
+    font-size:20;
+    font-weight:bold;
+    border-radius:10px;
+    background-color:#ffffff;
+    cursor:grab;
+}
+.commandNameDiv:drag {
+    font-size:20;
+    font-weight:bold;
+    border-radius:10px;
+    background-color:#ffffff;
+    cursor:grabbing;
+}

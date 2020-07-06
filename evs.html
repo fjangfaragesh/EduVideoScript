@@ -2,6 +2,8 @@
     <head>
         <title>EduVideoScript</title>
         <meta charset="utf-8"/>
+        <script type="text/javascript" src="voicefunctions.js"></script>
+        <script type="text/javascript" src="ytfunctions.js"></script>
         <script type="text/javascript" src="evs.js"></script>
         <script type="text/javascript" src="commands.js"></script>
         <script type="text/javascript">
@@ -10,20 +12,35 @@
 const RESPONSIVE_VOICE_API_KEY = "eKksbM0y";
 
 let evsi = new EVSInstance();
+
 let userCommands = [
     ["say",{"text":"no program loaded"}]
 ];
 
+let INFO_OUTPUT;
+function setInfoOutputText(text) {
+    INFO_OUTPUT.innerHTML = "";
+    INFO_OUTPUT.appendChild(document.createTextNode(text));
+}
+
 
 onload = async function() {
+    INFO_OUTPUT = document.getElementById("evsContent");
+    setInfoOutputText("loading YouTube IFrame API...");
+    await loadYouTubeIframeAPI();
+    setInfoOutputText("loading responsive Voice API...");
     await loadResponsiveVoiceAPI(RESPONSIVE_VOICE_API_KEY);
-    document.getElementById("evsContent").innerHTML = "ready!";
+    setInfoOutputText("ready!");
     document.getElementById("startButton").disabled = false;
     document.getElementById("stopButton").disabled = false;
 }
 
+
+
+
 async function testMe() {
     await evsi.runCommands(EVSCommandType.parseCommands(COMMAND_TYPES,userCommands));
+    window.location = window.location;
 }
 
 
@@ -39,6 +56,7 @@ window.addEventListener('message', function(e) {
     </head>
     <body>
         <p id="evsContent">loading...</p>
+        <div id="ytplayer"></div>
         <input type="button" id="startButton" value="start" onclick="testMe()" disabled/><br/>
         <input type="button" id="stopButton" value="stop" onclick="evsi.stop()" disabled/>
     </body>
