@@ -48,9 +48,13 @@ Contains Array `COMMAND_TYPES` with all implemented Commands
 - changeYTVideo
 - waitYTVideoTime
 
-### <ytfunctions.js>
+### [ytfunctions.js](ytfunctions.js)
 
+contains functions for controlling the youtube iframe api
 
+### [voicefunctions.js](voicefunctions.js)
+
+contains functions for controlling the responsive voice api
 
 ### [evs.html](evs.html)
 
