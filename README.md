@@ -9,8 +9,7 @@ Graphic editor for the commands.
 
 ## Usage
 
-clone git repo, open <editor/editor.html> in a modern browser.
-
+clone git repo, open `editor/editor.html` in a modern browser.
 
 ## Structure
 
