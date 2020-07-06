@@ -14,7 +14,7 @@ clone git repo, open <editor/editor.html> in a modern browser.
 
 ## Structure
 
-### <evs.js>
+### [evs.js](evs.js)
 
 Base Classes
 
@@ -31,7 +31,7 @@ Contains name, description, parameter name and type list and EVSCommand build fu
 Contains Command Type, parameter and if the command is running.
 
 
-### <commands.js>
+### [commands.js](commands.js)
 
 Contains Array `COMMAND_TYPES` with all implemented Commands
 
@@ -52,18 +52,18 @@ Contains Array `COMMAND_TYPES` with all implemented Commands
 
 
 
-### <evs.html>
+### [evs.html](evs.html)
 
 Website for executing the script
 
-### <editor/editor.html>
+### [editor/editor.html](editor/editor.html)
 
 Graphic editor for editing the script.
 
-### <editor/editor.js>
+### [editor/editor.js](editor/editor.js)
 
 Editor Code
 
-### <editor/commandcolors.js>
+### [editor/commandcolors.js](editor/commandcolors.js)
 
 contains colors of commands
