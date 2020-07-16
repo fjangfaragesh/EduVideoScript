@@ -11,43 +11,96 @@
 
 const RESPONSIVE_VOICE_API_KEY = "eKksbM0y";
 
-let evsi = new EVSInstance();
+let evsi;
 
 let userCommands = [
     ["say",{"text":"no program loaded"}]
 ];
 
-let INFO_OUTPUT;
+let EVS_OUTPUT, START_BUTTON, STOP_BUTTON, SKIP_SELECT;
+
+
+function setCommandData(commands) {
+    userCommands = commands;
+    SKIP_SELECT.innerHTML = "";
+    for (let i = 0; i < commands.length; i++) {
+        let tx;
+        if (commands[i][0] == "label") {
+            tx = "Label: " + commands[i][1].label;
+        } else {
+            tx = JSON.stringify(commands[i]).substring(0,32);
+        }
+        let op = document.createElement("option");
+        op.value = i;
+        op.appendChild(document.createTextNode(tx));
+        SKIP_SELECT.appendChild(op);
+    }
+    resetEVS();
+}
+
 function setInfoOutputText(text) {
-    INFO_OUTPUT.innerHTML = "";
-    INFO_OUTPUT.appendChild(document.createTextNode(text));
+    EVS_OUTPUT.innerHTML = "";
+    EVS_OUTPUT.appendChild(document.createTextNode(text));
 }
 
 
 onload = async function() {
-    INFO_OUTPUT = document.getElementById("evsContent");
+    EVS_OUTPUT = document.getElementById("evsContent");
+    START_BUTTON = document.getElementById("startButton");
+    STOP_BUTTON = document.getElementById("stopButton");
+    SKIP_SELECT = document.getElementById("skipSelect");
+    
+    setCommandData(userCommands);//prepare skip select for default program
+    
     setInfoOutputText("loading YouTube IFrame API...");
     await loadYouTubeIframeAPI();
     setInfoOutputText("loading responsive Voice API...");
     await loadResponsiveVoiceAPI(RESPONSIVE_VOICE_API_KEY);
+    evsi = new EVSInstance();
     setInfoOutputText("ready!");
-    document.getElementById("startButton").disabled = false;
-    document.getElementById("stopButton").disabled = false;
+    START_BUTTON.disabled = false;
+    SKIP_SELECT.disabled = false;
+}
+
+function resetEVS() {
+    EVS_OUTPUT.innerHTML = "";
+    let ytpd = document.createElement("div");
+    ytpd.id = "ytplayer";
+    EVS_OUTPUT.appendChild(ytpd);
+    evsi = new EVSInstance();
 }
 
 
+async function startMe(startIndex) {
+    
+    let commands = EVSCommandType.parseCommands(COMMAND_TYPES,userCommands);
+    if (startIndex !== undefined) commands = EVSInstance.createCommandsSkipFrom(commands,startIndex);
+    resetEVS();
+    START_BUTTON.disabled = true;
+    STOP_BUTTON.disabled = false;
+    await evsi.runCommands(commands);
+    START_BUTTON.disabled = false;
+    STOP_BUTTON.disabled = true;
+}
 
+async function stopMe() {
+    await evsi.stop();
+    resetEVS();
+    START_BUTTON.disabled = false;
+    STOP_BUTTON.disabled = true;
+}
 
-async function testMe() {
-    await evsi.runCommands(EVSCommandType.parseCommands(COMMAND_TYPES,userCommands));
-    window.location = window.location;
+async function skipMe(index) {
+    await evsi.stop();
+    resetEVS();
+    await startMe(index);
 }
 
 
 window.addEventListener('message', function(e) {
     let d = JSON.parse(e.data);
     if (d.command == "loadCode") {
-        userCommands = d.code;
+        setCommandData(d.code);
     }
 });
 
@@ -56,9 +109,9 @@ window.addEventListener('message', function(e) {
     </head>
     <body>
         <p id="evsContent">loading...</p>
-        <div id="ytplayer"></div>
-        <input type="button" id="startButton" value="start" onclick="testMe()" disabled/><br/>
-        <input type="button" id="stopButton" value="stop" onclick="evsi.stop()" disabled/><br/>
+        <input type="button" id="startButton" value="start" onclick="startMe()" disabled/><br/>
+        <input type="button" id="stopButton" value="stop" onclick="stopMe()" disabled/><br/>
+        <select id="skipSelect" disabled onchange="skipMe(this.value*1)"></select><br/>
         <a href="responsivevoice.org">responsivevoice.org</a>
     </body>
 </html>

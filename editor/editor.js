@@ -257,7 +257,7 @@ function createCodeLineDiv(editCode, index) {
     nameDiv.className = "commandNameDiv";
     nameDiv.style["background-color"] = color;
     nameDiv.draggable = true;
-    nameDiv.appendChild(document.createTextNode(typeName));
+    nameDiv.appendChild(document.createTextNode(typeName + "\t\t\t (" + index + ")"));
     ret.appendChild(nameDiv);
 
     nameDiv.ondragstart = function(ev) {

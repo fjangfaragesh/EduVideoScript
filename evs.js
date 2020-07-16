@@ -1,7 +1,7 @@
 const YOUTUBE_IFRAME_API_LINK = "https://www.youtube.com/iframe_api";
 const RESPONSIVE_VOICE_API_LINK = "https://code.responsivevoice.org/responsivevoice.js";
 
-
+let COMMAND_TYPE_LABEL;
 
 function sleep(ms) {
     return new Promise(function (resolve,reject) {
@@ -18,6 +18,7 @@ class EVSInstance {
         this._currentCommand = undefined;
         this._stopsCount = 0;// counts the number of stopCurrentCommand() calls
     }
+    
     async runCommand(cmnd) {
         if (this._currentCommand !== undefined) throw new Error("EVSInstance can only run one command at the same time");
         this._currentCommand = cmnd;
@@ -27,13 +28,18 @@ class EVSInstance {
         this._currentCommand = undefined;
         return true;
     }
-    stop() {
+    
+    async stop() {
         this._stopsCount++;
         if  (this._currentCommand == undefined) return;
-        this._currentCommand.stop();
+        await this._currentCommand.stop();
         this._currentCommand = undefined;
+        return;
     }
-    async runCommands(cmnds) {
+    
+    async runCommands(cmnds, startIndex) {
+        if (startIndex !== undefined && startIndex != 0) cmnds = EVSInstance.createCommandsSkipFrom(cmnds, startIndex);
+        console.log(cmnds);
         for (let cmnd of cmnds) if (!this._stoping) {
             if (!await this.runCommand(cmnd)) break;
         }
@@ -43,6 +49,21 @@ class EVSInstance {
     }
     setVar(name,value) {
         this._variables[name] = value;
+    }
+    
+    // converts commands that should be skipped so that they are in the correct state at the end, but no meaningless commands are executed.
+    // returns EVSCommandType[]
+    static createCommandsSkip(cmnds) {
+        let ret = [];
+        for (let c of cmnds) {
+            c.prepareSkip(ret);
+        }
+        return ret;
+    }
+    
+    static createCommandsSkipFrom(cmnds, startIndex) {
+        // the first part of commands is converted, the last part remains the same
+        return EVSInstance.createCommandsSkip(cmnds.slice(0,startIndex)).concat(cmnds.slice(startIndex));
     }
 }
 
@@ -148,7 +169,6 @@ EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN = function(mini,maxi) {
         if (isNaN(v)) throw new Error(v + " is not a number");
         if (n < mini || n > maxi) {
             throw new Error(n + " is not between " + mini + " " + maxi);
-            console.log(n,mini,maxi);
         }
         return n;
     };
@@ -206,4 +226,47 @@ class EVSCommand {
         throw new Error("EVSCommand.stopMe is abstract");
     }
 
+    
+    // adds itself to the array if fast forward execution is relevant for skiping
+    // adds or removes other Commands, if necessary
+    prepareSkip(cmnds) {
+        throw new Error("EVSCommand.prepareSkip is abstract");
+    }
 }
+
+
+COMMAND_TYPE_LABEL = new EVSCommandType("label",[new EVSParameterInfo("label",EVSParameterInfo.CHECK_FUNCTION.PASS,"","label name")],
+                                        (t,p)=>new COMMAND_CLASS_LABEL(t,p.label),"label for skiping");
+COMMAND_CLASS_LABEL = class extends EVSCommand {
+    constructor(type,label) {
+        super(type);
+        this.label = label;
+    }
+    async execute(evsInstance) {
+        //Do nothing
+    }
+    async stopMe() {
+        //Do nothing
+    }
+    prepareSkip(cmnds) {
+        // label can simply be ignored
+    };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

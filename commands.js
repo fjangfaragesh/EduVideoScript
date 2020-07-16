@@ -5,6 +5,12 @@ const COMMAND_CLASSES = {};
 
 const DEFAULT_VIDEO_ID = "gLHeQsy8juU";
 
+function arrayFilterDirect(arr, filter) {
+    let f = arr.filter(filter);
+    arr.length = 0;
+    for (let x of f) arr.push(x);
+}
+
 // parses time string (seconds / minutes:secons / hours:minutes:seconds)
 let READ_TIME_CHECK_FUNCTION = function(v) {
     if (isNaN(v*1)) {
@@ -26,17 +32,18 @@ let READ_TIME_CHECK_FUNCTION = function(v) {
     }
 }
 
+COMMAND_TYPES[COMMAND_TYPE_LABEL.name] = COMMAND_TYPE_LABEL;
+COMMAND_CLASSES[COMMAND_TYPE_LABEL.name] = COMMAND_CLASS_LABEL;
 initEVSCommandClasses();
 initEVSCommandTypes();
 
 
-
 // EduVideoScript Command Type add
-function evscta(name,parameters,commandBuilder,description) {
+function addCommand(name,parameters,commandBuilder,description) {
     COMMAND_TYPES[name] = new EVSCommandType(name,parameters,commandBuilder,description);
 }
 // EduVideoScript create Parameter Info
-function evspar(id,checkFunction,defaultValue,description) {
+function createParameter(id,checkFunction,defaultValue,description) {
     return new EVSParameterInfo(id,checkFunction,defaultValue,description);
 }
 
@@ -44,120 +51,120 @@ function evspar(id,checkFunction,defaultValue,description) {
 
 function initEVSCommandTypes() {
     /*
-    evscta(
+    addCommand(
         "commandName",
         [
-            evspar("parameter1",...checkFunction..., "default value", "description parameter1"),
-            evspar("parameter2",...checkFunction2..., "default value", "description parameter2")
+            createParameter("parameter1",...checkFunction..., "default value", "description parameter1"),
+            createParameter("parameter2",...checkFunction2..., "default value", "description parameter2")
         ],
         (t,p)=>new Command....(t,p.parameter1,p.parameter2, ... ),
         "description"
     );
     */
 
-    evscta(
+    addCommand(
         "wait",
         [
-            evspar("time",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT(0,100000000),"1000","time in milliseconds")
+            createParameter("time",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT(0,100000000),"1000","time in milliseconds")
         ],
         (t,p)=>new COMMAND_CLASSES.Wait(t,p.time),
         "waits for <time> milliseconds"
     );
 
-    evscta(
+    addCommand(
         "log",
         [
-            evspar("value",EVSParameterInfo.CHECK_FUNCTION.PASS,"no message","debug value")
+            createParameter("value",EVSParameterInfo.CHECK_FUNCTION.PASS,"no message","debug value")
         ],
         (t,p)=>new COMMAND_CLASSES.Log(t,p.value),
         "runs console.log(value) for debuging"
     );
 
-    evscta(
+    addCommand(
         "alert",
         [
-            evspar("text",EVSParameterInfo.CHECK_FUNCTION.PASS,"no message :(","text to be displayed")
+            createParameter("text",EVSParameterInfo.CHECK_FUNCTION.PASS,"no message :(","text to be displayed")
         ],
         (t,p)=>new COMMAND_CLASSES.Alert(t,p.text),
         "Opens a javascript dialog box and waits until you click on ok."
     );
     
-    evscta(
+    addCommand(
         "say",
         [
-            evspar("text",EVSParameterInfo.CHECK_FUNCTION.PASS,"no text","text to be read aloud"),
-            evspar("voice",EVSParameterInfo.CHECK_FUNCTION.PASS,"US English Female","exact voice name (for example \"US English Male\""),//TODO check if voice exist
-            evspar("pitch",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN(0,2),"1","pitch (between 0 and 2)"),
-            evspar("rate",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN(0,1.5),"1","talking speed (between 0 and 1.5)"),
-            evspar("volumne",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN(0,1),"1","talking volumne (between 0 and 1)"),
+            createParameter("text",EVSParameterInfo.CHECK_FUNCTION.PASS,"no text","text to be read aloud"),
+            createParameter("voice",EVSParameterInfo.CHECK_FUNCTION.PASS,"US English Female","exact voice name (for example \"US English Male\""),//TODO check if voice exist
+            createParameter("pitch",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN(0,2),"1","pitch (between 0 and 2)"),
+            createParameter("rate",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN(0,1.5),"1","talking speed (between 0 and 1.5)"),
+            createParameter("volumne",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN(0,1),"1","talking volumne (between 0 and 1)"),
         ],
         (t,p)=>new COMMAND_CLASSES.Say(t,p.text,p.voice,p.pitch,p.rate,p.volumne),
         "uses responivevoice to say the text"
     );
 
-    evscta(
+    addCommand(
         "openYTPlayer",
         [
-            evspar("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
-            evspar("width",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT(200,8912),"640","width of the youtube player"),
-            evspar("height",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT(200,8912),"320","heigth of the youtube player"),
-            evspar("videoId",EVSParameterInfo.CHECK_FUNCTION.PASS,DEFAULT_VIDEO_ID,"youtube video id"),
+            createParameter("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
+            createParameter("width",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT(200,8912),"640","width of the youtube player"),
+            createParameter("height",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT(200,8912),"320","heigth of the youtube player"),
+            createParameter("videoId",EVSParameterInfo.CHECK_FUNCTION.PASS,DEFAULT_VIDEO_ID,"youtube video id"),
         ],
         (t,p)=>new COMMAND_CLASSES.OpenYTP(t,p.playerId,p.width,p.height,p.videoId),
         "opens a new youtube player"
     );
     
-    evscta(
+    addCommand(
         "playYTVideo",
         [
-            evspar("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
+            createParameter("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
         ],
         (t,p)=>new COMMAND_CLASSES.PlayYTV(t,p.playerId),
         "Plays the video in the youtube player with the playerId."
     );
     
-    evscta(
+    addCommand(
         "pauseYTVideo",
         [
-            evspar("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
+            createParameter("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
         ],
         (t,p)=>new COMMAND_CLASSES.PauseYTV(t,p.playerId),
         "Pauses the video in the youtube player with the playerId."
     );
     
-    evscta(
+    addCommand(
         "seekYTVideo",
         [
-            evspar("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
-            evspar("time",READ_TIME_CHECK_FUNCTION,"2:07.3","time, where to seek in seconds or minutes:secons or hours:minutes:secons"),
+            createParameter("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
+            createParameter("time",READ_TIME_CHECK_FUNCTION,"2:07.3","time, where to seek in seconds or minutes:secons or hours:minutes:secons"),
         ],
         (t,p)=>new COMMAND_CLASSES.SeekYTV(t,p.playerId,p.time),
         "Seeks video in the youtube player with the id playerId to the position."
     );
     
-    evscta(
+    addCommand(
         "changeYTVideo",
         [
-            evspar("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
-            evspar("videoId",EVSParameterInfo.CHECK_FUNCTION.PASS,DEFAULT_VIDEO_ID,"new youtube video id"),
+            createParameter("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
+            createParameter("videoId",EVSParameterInfo.CHECK_FUNCTION.PASS,DEFAULT_VIDEO_ID,"new youtube video id"),
         ],
         (t,p)=>new COMMAND_CLASSES.ChangeYTV(t,p.playerId,p.videoId),
         "Change to an other video in the youtube player."
     );
-    evscta(
+    addCommand(
         "waitYTVideoTime",
         [
-            evspar("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
-            evspar("time",READ_TIME_CHECK_FUNCTION,"1:23.456","time in video to wait for in seconds"),
+            createParameter("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
+            createParameter("time",READ_TIME_CHECK_FUNCTION,"1:23.456","time in video to wait for in seconds"),
         ],
         (t,p)=>new COMMAND_CLASSES.WaitYTVT(t,p.playerId,p.time),
         "Waits until the play time is lager or equal time."
     );
-    evscta(
+    addCommand(
         "volumneYTPlayer",
         [
-            evspar("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
-            evspar("volumne",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT(0,100),"100","volumne (between 0 and 100)"),
+            createParameter("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
+            createParameter("volumne",EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT(0,100),"100","volumne (between 0 and 100)"),
         ],
         (t,p)=>new COMMAND_CLASSES.VolumneYTP(t,p.playerId,p.volumne),
         "Changes the volumne of the youtube player."
@@ -178,6 +185,9 @@ function initEVSCommandClasses() {
         async stopMe() {
             //Do nothing
         }
+        prepareSkip(cmnds) {
+            // waiting can simply be skipped
+        };
     }
     
     COMMAND_CLASSES.Log = class extends EVSCommand {
@@ -191,6 +201,9 @@ function initEVSCommandClasses() {
         async stopMe() {
             //Do nothing
         }
+        prepareSkip(cmnds) {
+            // loging can simply be skipped
+        };
     }
 
     COMMAND_CLASSES.Alert = class extends EVSCommand {
@@ -204,6 +217,9 @@ function initEVSCommandClasses() {
         async stopMe() {
             //impossible to close alert with javascript
         }
+        prepareSkip(cmnds) {
+            // alert can simply be skipped
+        };
     }
     
     COMMAND_CLASSES.Say = class extends EVSCommand {
@@ -221,6 +237,9 @@ function initEVSCommandClasses() {
         async stopMe() {
             stopVoice();
         }
+        prepareSkip(cmnds) {
+            // talking can simply be skipped
+        };
     }
     
     COMMAND_CLASSES.OpenYTP = class extends EVSCommand {
@@ -246,6 +265,10 @@ function initEVSCommandClasses() {
         async stopMe() {
             //TODO what do do?
         }
+        prepareSkip(cmnds) {
+            // OpenYTP can't simply be skipped
+            cmnds.push(this);
+        };
     }
     
     let PlayerClass = class extends EVSCommand {
@@ -274,6 +297,18 @@ function initEVSCommandClasses() {
         async stopMe() {
             //TODO what do do?
         }
+        prepareSkip(cmnds) {
+            let current = this;
+            
+            // remove previous stop and play commands of the same player
+            arrayFilterDirect(cmnds,function(c) {
+                if (c instanceof COMMAND_CLASSES.PlayYTV || c instanceof COMMAND_CLASSES.PauseYTV) return c.playerId != current.playerId;
+                return true;
+            });
+            
+            // add play command
+            cmnds.push(this);
+        };
     }
     COMMAND_CLASSES.PauseYTV = class extends PlayerClass {
         constructor(type,playerId) {
@@ -285,6 +320,18 @@ function initEVSCommandClasses() {
         async stopMe() {
             //TODO what do do?
         }
+        prepareSkip(cmnds) {
+            let current = this;
+            
+            // remove previous stop and play commands of the same player
+            arrayFilterDirect(cmnds,function(c) {
+                if (c instanceof COMMAND_CLASSES.PlayYTV || c instanceof COMMAND_CLASSES.PauseYTV) return c.playerId != current.playerId;
+                return true;
+            });
+            
+            // add play command
+            cmnds.push(this);
+        };
     }
     COMMAND_CLASSES.SeekYTV = class extends PlayerClass {
         constructor(type,playerId,time) {
@@ -297,6 +344,18 @@ function initEVSCommandClasses() {
         async stopMe() {
             //TODO what do do?
         }
+        prepareSkip(cmnds) {
+            let current = this;
+                
+            // remove previous seek commands of the same player
+            arrayFilterDirect(cmnds,function(c) {
+                if (c instanceof COMMAND_CLASSES.SeekYTV) return c.playerId != current.playerId;
+                return true;
+            });
+            // add seek command
+            cmnds.push(this);
+        };
+        
     }
     COMMAND_CLASSES.ChangeYTV = class extends PlayerClass {
         constructor(type,playerId,videoId) {
@@ -309,6 +368,29 @@ function initEVSCommandClasses() {
         async stopMe() {
             //TODO what do do?
         }
+        prepareSkip(cmnds) {
+            let current = this;
+
+            let playing = false;
+            for (let c of cmnds) {
+                if (c instanceof COMMAND_CLASSES.PlayYTV) {
+                    if (c.playerId == this.playerId) playing = true;
+                } else if (c instanceof COMMAND_CLASSES.PauseYTV) {
+                    if (c.playerId == this.playerId) playing = false;
+                }
+            }
+            
+            // remove previous play, pause and seek commands of the same player
+            arrayFilterDirect(cmnds,function(c) {
+                if (c instanceof COMMAND_CLASSES.PlayYTV || c instanceof COMMAND_CLASSES.PauseYTV || c instanceof COMMAND_CLASSES.SeekYTV) return c.playerId != current.playerId;
+                return true;
+            });
+
+            // change video id of openYTPlayer command
+            for (let c of cmnds) if (c instanceof COMMAND_CLASSES.OpenYTP) if (c.playerId == this.playerId) c.videoId = this.videoId;
+            
+            if (playing) cmnds.push(COMMAND_TYPES.playYTVideo.build({"playerId":this.playerId}));
+        };
     }
     COMMAND_CLASSES.WaitYTVT = class extends PlayerClass {
         constructor(type,playerId,time) {
@@ -321,6 +403,18 @@ function initEVSCommandClasses() {
         async stopMe() {
             //TODO what do do?
         }
+        prepareSkip(cmnds) {
+            let current = this;
+            
+            // remove seeks
+            arrayFilterDirect(cmnds,function(c) {
+                if (c instanceof COMMAND_CLASSES.SeekYTV) return c.playerId != current.playerId;
+                return true;
+            });
+            
+            // because it is known that the time has been reached, a seek is added
+            cmnds.push(COMMAND_TYPES.seekYTVideo.build({"playerId":this.playerId, "time":this.time}));
+        }
     }
     COMMAND_CLASSES.VolumneYTP = class extends PlayerClass {
         constructor(type,playerId,volumne) {
@@ -332,6 +426,15 @@ function initEVSCommandClasses() {
         }
         async stopMe() {
             //TODO what do do?
+        }
+        prepareSkip(cmnds) {
+            let current = this;
+            
+            // remove vol changes
+            arrayFilterDirect(cmnds,function(c) {
+                if (c instanceof COMMAND_CLASSES.VolumneYTP) return c.playerId != current.playerId;
+                return true;
+            });
         }
     }
 }
