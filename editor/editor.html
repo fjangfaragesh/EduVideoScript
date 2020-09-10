@@ -38,7 +38,8 @@ onload = function() {
     </head>
     <body ondragover="event.preventDefault()" ondrop="event.preventDefault()">
         <header class="header">
-            <input type="button" id="graphicalEditorHeaderButton" class="headerButton" value="graphical editor" onclick="switchToGraphicalEditor(currentEditCode)"/><!--
+            <input type="button" id="fileHeaderButton" class="headerButton" value="file" onclick="switchToFileOptions(currentEditCode)"/><!--
+            --><input type="button" id="graphicalEditorHeaderButton" class="headerButton" value="graphical editor" onclick="switchToGraphicalEditor(currentEditCode)"/><!--
             --><input type="button" id="JSONEditorHeaderButton" class="headerButton" value="json editor" onclick="switchToJSONEditor(currentEditCode)"/><!--
             --><input type="button" id="runHeaderButton" class="headerButton" value="run" onclick="switchToRunMode(currentEditCode)"/>
         </header>

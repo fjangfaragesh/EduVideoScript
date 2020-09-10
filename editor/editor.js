@@ -8,6 +8,13 @@ class EditCode {
     constructor(lines) {
         if (lines === undefined || lines === null) lines = [];
         this._lines = lines;
+        this._name = "no_name";
+    }
+    getName() {
+        return this._name;
+    }
+    setName(name) {
+        this._name = name;
     }
     // returns a copy of the line at lineIndex
     getLine(lineIndex) {
@@ -438,4 +445,83 @@ function switchToRunMode(editCode) {
         iframe.contentWindow.postMessage(JSON.stringify({"command":"loadCode","code":editCode.getLines()}),"*");
     }
     MAIN_FIELD.appendChild(iframe);
+}
+
+function switchToFileOptions(editCode) {
+    // clear main field
+    MAIN_FIELD.innerHTML = "";
+    
+// set style of header buttons (TODO selected)
+    GRAPHICAL_HEADER_BUTTON.className = "headerButton";
+    JSON_HEADER_BUTTON.className = "headerButton";
+    RUN_HEADER_BUTTON.className = "headerButton";
+    
+    let hName = document.createElement("h2");
+    hName.appendChild(document.createTextNode("Name"));
+    MAIN_FIELD.appendChild(hName);
+    
+    let nameInput = document.createElement("input");
+    nameInput.placeholder = "file name";
+    nameInput.value = editCode.getName();
+    nameInput.onchange = function() {
+        editCode.setName(nameInput.value);
+    }
+    MAIN_FIELD.appendChild(nameInput);
+    
+    
+    
+    // let hLoadExample = document.createElement("h2");
+    // hLoadExample.appendChild(document.createTextNode("Load example"));
+    
+    // let exampleSelect = document.createElement("select");
+    
+    
+    //MAIN_FIELD.appendChild(hLoadExample);
+    
+    let hLoadFile = document.createElement("h2");
+    hLoadFile.appendChild(document.createTextNode("Load file"));
+    MAIN_FIELD.appendChild(hLoadFile);
+    
+    let fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.onchange = function(ev) {
+        let fr = new FileReader();
+        fr.onload = function(e) {
+            try {
+                editCode.loadJSON(e.target.result);
+                let n = ev.target.files[0].name;
+                if (n.toLowerCase().endsWith(".json")) n = n.substring(0,n.length-5);
+                editCode.setName(n);
+                switchToGraphicalEditor(editCode);
+            } catch (ex) {
+                alert(ex);
+            }
+        }
+        fr.readAsText(ev.target.files[0]);
+    }
+    MAIN_FIELD.appendChild(fileInput);
+    
+    
+    
+    
+    let hDownloadFile = document.createElement("h2");
+    hDownloadFile.appendChild(document.createTextNode("Download file"));
+    MAIN_FIELD.appendChild(hDownloadFile);
+    
+    let fileDownloadButton = document.createElement("input");
+    fileDownloadButton.type = "button";
+    fileDownloadButton.value = "Download JSON file";
+    fileDownloadButton.onclick = function() {downloadTextFile(editCode.getName() + ".json",editCode.getJSON(),"text/json")};
+    MAIN_FIELD.appendChild(fileDownloadButton);
+}
+
+function downloadTextFile(name, text, type) {
+    if (type === undefined) type = "text/plain";
+    var a = document.createElement("a");
+    a.setAttribute("href", "data:" + type + ";charset=utf-8," + encodeURIComponent(text));
+    a.setAttribute("download", name);
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 }
