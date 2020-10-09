@@ -1,0 +1,18 @@
+[
+        ["say",{"voice":"Deutsch Female","text":"Hallo Leute, heute schauen wir Videos an."}], 
+        ["openYTPlayer",{"videoId":"XyNlqQId-nk"}], 
+        ["seekYTVideo",{"time":"2:08"}], 
+        ["pauseYTVideo",{}], 
+        ["say",{"voice":"Deutsch Female","text":"Katzen sind komische Tiere. Sie könne rum laufen und nachdenken. Sie können auch Fressen, so ähnlich wie Meerschweinchen, nur dass Meerschweinchen anderes Lieblingsfutter haben."}], 
+        ["playYTVideo",{}], 
+        ["waitYTVideoTime",{"time":"2:17"}], 
+        ["say",{"voice":"Deutsch Female","text":"Wie witzig ha ha ha ha."}], 
+        ["waitYTVideoTime",{"time":"2:25"}], 
+        ["say",{"voice":"Deutsch Female","text":"Ups da hängt jemand fest. Mal schauen was passiert..."}], 
+        ["waitYTVideoTime",{"time":"2:44"}], 
+        ["say",{"voice":"Deutsch Female","text":"geschafft. So ein schlaues tierchen. Katzen können schneller denken, als Menschen, das habe ich mal irgendwo im Internet gelesen."}], 
+        ["seekYTVideo",{"time":"7:08"}], 
+        ["say",{"voice":"Deutsch Female","text":"Katzen sind immer aufmerksam und machen nie Fehler."}], 
+        ["waitYTVideoTime",{"time":"7:14"}], 
+        ["pauseYTVideo",{}]
+    ]

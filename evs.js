@@ -165,7 +165,7 @@ EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN = function(mini,maxi) {
         let n = v*1;
         if (isNaN(v)) throw new Error(v + " is not a number");
         if (n < mini || n > maxi) {
-            throw new Error(n + " is not between " + mini + " " + maxi);
+            throw new Error(n + " is not between " + mini + " and " + maxi);
         }
         return n;
     };
@@ -177,7 +177,7 @@ EVSParameterInfo.CHECK_FUNCTION_CREATE.BETWEEN_INT = function(mini,maxi) {
         let n = v*1;
         if (isNaN(v)) throw new Error(v + " is not a number");
         if (n%1 != 0) throw new Error(n + " is not a integer");
-        if (n < mini || n > maxi) throw new Error(n + " is not between " + mini + " " + maxi);
+        if (n < mini || n > maxi) throw new Error(n + " is not between " + mini + " and " + maxi);
         return n;
     };
 }

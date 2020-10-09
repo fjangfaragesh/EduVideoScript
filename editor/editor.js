@@ -469,14 +469,16 @@ function switchToFileOptions(editCode) {
     MAIN_FIELD.appendChild(nameInput);
     
     
+ /*    
+    let hLoadExample = document.createElement("h2");
+    hLoadExample.appendChild(document.createTextNode("Load example"));
+   
+    let exampleSelect = document.createElement("select");
     
-    // let hLoadExample = document.createElement("h2");
-    // hLoadExample.appendChild(document.createTextNode("Load example"));
     
-    // let exampleSelect = document.createElement("select");
-    
-    
-    //MAIN_FIELD.appendChild(hLoadExample);
+    MAIN_FIELD.appendChild(hLoadExample);
+    MAIN_FIELD.appendChild(exampleSelect);
+                                                */
     
     let hLoadFile = document.createElement("h2");
     hLoadFile.appendChild(document.createTextNode("Load file"));

@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Edu Video Script</title>
+    </head>
+    <body>
+        <h1>Edu Video Script</h1>
+        <h3>by <a href="https://github.com/fjangfaragesh">Fabian Bär</a></h3>
+        Drag and drop code line boxes or edit json code data in <a href="editor/editor.html">online editor</a>.
+        
+    
+        <h2>Example Files</h2>
+        <a href="examples/demo.json" download>Demo TU Freiberg Video und süße Katzen</a><br/>
+        <a href="examples/example1.json" download>Lustiges Beispiel</a><br/>
+        
+        <h2>Code Line Types</h2>
+        <h3>label</h3>
+        Functionality not implemented yet
+        <h3>wait</h3>
+        Waits <b>time</b> milliseconds
+        <h3>log</h3>
+        Prints message (<b>value</b>) in JavaScript console
+        <h3>alert</h3>
+        Opens alert dialog with <b>text</b> and waits until the user clicks on "ok"
+        <h3>say</h3>
+        Uses <a href="https://responsivevoice.org">Responsive Voice</a> Text to speach and waits until the speaking is finished.<br/>
+        <b>text</b>: text to say<br/>
+        <b>voice</b>: Responsive Voice name (<a href="https://responsivevoice.org/text-to-speech-languages/">Voice List</a>)<br/>
+        <b>pitch</b>: voice pitch<br/>
+        <b>rate</b>: voice speed<br/>
+        <b>volumne</b> voice volumne
+        <h3>openYTPlayer</h3>
+        Opens the youtube Player with a video loaded. The player does not start the video automatically. To start playYTVideo must be called.<br/>
+        <b>playerID</b>: Not implemented, keep this parameter empty!<br/>
+        <b>width</b>,<b>height</b><br/>
+        <b>videoId</b>: Youtube Video id. You can find the videoId in the URL (example: https://www.youtube.com/watch?v=<b><u>NdvtCuu3MDo</u></b>)
+        <h3>TODO other commands</h3>
+    </body>
+</html>
