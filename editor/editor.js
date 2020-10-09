@@ -67,6 +67,13 @@ class EditCode {
         s += "\n]";
         return s;
     }
+    
+    // one line, escapes ' by &apos; and ` escaped by &grave;
+    getLiaJSON() {
+        let ret = JSON.stringify(this._lines);
+        return ret.replaceAll(`'`,"&apos;").replaceAll(`\``,"&grave;");
+    }
+    
     // loads lines from json string
     loadJSON(json) {
         this._lines = JSON.parse(json);
@@ -514,8 +521,27 @@ function switchToFileOptions(editCode) {
     fileDownloadButton.type = "button";
     fileDownloadButton.value = "Download JSON file";
     fileDownloadButton.onclick = function() {downloadTextFile(editCode.getName() + ".json",editCode.getJSON(),"text/json")};
+    
     MAIN_FIELD.appendChild(fileDownloadButton);
+    
+    let hCreateLia = document.createElement("h2");
+    hCreateLia.appendChild(document.createTextNode("Generate LiaScript makro call"));
+    MAIN_FIELD.appendChild(hCreateLia);
+    
+    let createLiaButton = document.createElement("input");
+    createLiaButton.type = "button";
+    createLiaButton.value = "Generate";
+    createLiaButton.onclick = function() {openLiaWindow(editCode)};
+
+    MAIN_FIELD.appendChild(createLiaButton);
 }
+function openLiaWindow(editCode) {
+    let wind = window.open("","LiaScript Makro Call", "LiaScript", "width=500, height=500, top=25, left=25");
+    wind.document.body.appendChild(wind.document.createTextNode("@EduVideoScript.eval(`" + editCode.getLiaJSON() + "`)"));
+//    
+}
+
+
 
 function downloadTextFile(name, text, type) {
     if (type === undefined) type = "text/plain";
@@ -527,3 +553,6 @@ function downloadTextFile(name, text, type) {
     a.click();
     document.body.removeChild(a);
 }
+
+
+

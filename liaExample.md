@@ -2,7 +2,7 @@
 author:   Fabian Bär
 email: baerfabian@gmx.de
 
-version: 0.0.3
+version: 0.0.4
 
 import: https://fjangfaragesh.github.io/EduVideoScript/import.md
 -->
@@ -20,14 +20,14 @@ import: https://fjangfaragesh.github.io/EduVideoScript/import.md
 ```
 @EduVideoScript.eval(`PROGRAM`)
 ```
-Replace `PROGRAM` by the program json text.
+Replace `PROGRAM` by the program json text and replace `'` by `&apos;` and backtick/grave by `&grave;`
 
-You can create the program [here](https://fjangfaragesh.github.io/EduVideoScript/editor/editor.html).
+You can create the program [here](https://fjangfaragesh.github.io/EduVideoScript/editor/editor.html) and generate the makro code.
 
 **Example:**
 
 ```
-@EduVideoScript.eval(`[["say",{"text":"Welcome LiaScript!"}],["say",{"text":"Ciao!"}]]`)
+@EduVideoScript.eval(`[["say",{"text":"It&apos;s running on LiaScript!"}],["say",{"text":"Ciao!"}]]`)
 ```
 
-@EduVideoScript.eval(`[["say",{"text":"Welcome LiaScript!"}],["say",{"text":"Ciao!"}]]`)
+@EduVideoScript.eval(`[["say",{"text":"It&apos;s running on LiaScript!"}],["say",{"text":"Ciao!"}]]`)
