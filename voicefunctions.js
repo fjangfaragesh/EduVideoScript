@@ -1,3 +1,6 @@
+ const RESPONSIVE_VOICE_API_LINK = "https://code.responsivevoice.org/responsivevoice.js";
+
+ 
  /*
  * https://responsivevoice.org/api/
  */

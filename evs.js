@@ -1,6 +1,3 @@
-const YOUTUBE_IFRAME_API_LINK = "https://www.youtube.com/iframe_api";
-const RESPONSIVE_VOICE_API_LINK = "https://code.responsivevoice.org/responsivevoice.js";
-
 let COMMAND_TYPE_LABEL;
 
 function sleep(ms) {
