@@ -7,9 +7,9 @@ Controlling one or more YouTube players and other outputs with a sequence of com
 
 Graphic editor for the commands.
 
-## Usage
+[Home Page](https://fjangfaragesh.github.io/EduVideoScript)
 
-clone git repo, open `editor/editor.html` in a modern browser.
+[OnlineEditor](https://fjangfaragesh.github.io/EduVideoScript/editor/editor.js)
 
 ## Structure
 
