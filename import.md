@@ -2,7 +2,7 @@
 author:   Fabian Bär
 email: baerfabian@gmx.de
 
-version: 0.0.0
+version: 0.0.1
 
 @EduVideoScript.eval
 
@@ -20,7 +20,7 @@ version: 0.0.0
 
 # EduVideoScript Import
 
-[Example](https://fjangfaragesh.github.io/EduVideoScript/liaExample.md)
+[Example](https://liascript.github.io/course/?https://fjangfaragesh.github.io/EduVideoScript/liaExample.md)
 
 ```
 @EduVideoScript.eval(`[["say",{"text":"Welcome LiaScript!"}],["say",{"text":"Ciao!"}]]`)

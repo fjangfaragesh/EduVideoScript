@@ -2,9 +2,7 @@
 author:   Fabian Bär
 email: baerfabian@gmx.de
 
-version: 0.0.0
-
-import: https://fjangfaragesh.github.io/EduVideoScript/import.md
+version: 0.0.1
 
 -->
 
