@@ -1,15 +1,15 @@
 # EduVideoScript
 Automatic play, pause, switch, fast forward YouTube videos. Text to speech and other editions. Embedding in Liascript possible but not necessary.
 
+[Home Page](https://fjangfaragesh.github.io/EduVideoScript)
+
+[OnlineEditor](https://fjangfaragesh.github.io/EduVideoScript/editor/editor.js)
+
 ## Idea
 
 Controlling one or more YouTube players and other outputs with a sequence of commands.
 
 Graphic editor for the commands.
-
-[Home Page](https://fjangfaragesh.github.io/EduVideoScript)
-
-[OnlineEditor](https://fjangfaragesh.github.io/EduVideoScript/editor/editor.js)
 
 ## Structure
 
