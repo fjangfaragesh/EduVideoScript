@@ -4,9 +4,11 @@ email: baerfabian@gmx.de
 
 version: 0.0.1
 
+import: https://fjangfaragesh.github.io/EduVideoScript/import.md
+
 -->
 
-#Edu Video Script Lia Example
+# Edu Video Script Lia Example
 
 **Import:**
 ```
