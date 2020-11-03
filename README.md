@@ -3,7 +3,7 @@ Automatic play, pause, switch, fast forward YouTube videos. Text to speech and o
 
 [Home Page](https://fjangfaragesh.github.io/EduVideoScript)
 
-[OnlineEditor](https://fjangfaragesh.github.io/EduVideoScript/editor/editor.js)
+[OnlineEditor](https://fjangfaragesh.github.io/EduVideoScript/editor/editor.html)
 
 ## Idea
 
