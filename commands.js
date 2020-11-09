@@ -151,6 +151,7 @@ function initEVSCommandTypes() {
         (t,p)=>new COMMAND_CLASSES.ChangeYTV(t,p.playerId,p.videoId),
         "Change to an other video in the youtube player."
     );
+    
     addCommand(
         "waitYTVideoTime",
         [
@@ -160,6 +161,7 @@ function initEVSCommandTypes() {
         (t,p)=>new COMMAND_CLASSES.WaitYTVT(t,p.playerId,p.time),
         "Waits until the play time is lager or equal time."
     );
+    
     addCommand(
         "volumneYTPlayer",
         [
@@ -168,6 +170,24 @@ function initEVSCommandTypes() {
         ],
         (t,p)=>new COMMAND_CLASSES.VolumneYTP(t,p.playerId,p.volumne),
         "Changes the volumne of the youtube player."
+    );
+    
+    addCommand(
+        "fullScreenYTPlayer",
+        [
+            createParameter("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
+        ],
+        (t,p)=>new COMMAND_CLASSES.FullScreenYTP(t,p.playerId,true),
+        "Makes the youtube player full screen."
+    );
+    
+    addCommand(
+        "exitFullScreenYTPlayer",
+        [
+            createParameter("playerId",EVSParameterInfo.CHECK_FUNCTION.PASS,"ytplayer","youtube player id"),
+        ],
+        (t,p)=>new COMMAND_CLASSES.FullScreenYTP(t,p.playerId,false),
+        "Exit youtube player full screen."
     );
 }
 
@@ -433,6 +453,31 @@ function initEVSCommandClasses() {
             // remove vol changes
             arrayFilterDirect(cmnds,function(c) {
                 if (c instanceof COMMAND_CLASSES.VolumneYTP) return c.playerId != current.playerId;
+                return true;
+            });
+        }
+    }
+    COMMAND_CLASSES.FullScreenYTP = class extends PlayerClass {
+        constructor(type,playerId,full) {
+            super(type,playerId);
+            this.full = full;
+        }
+        async executeP(evsInstance,player) {
+            if (this.full) {
+                fullScreenYTP(player);
+            } else {
+                exitFullScreenYTP(player);
+            }
+        }
+        async stopMe() {
+            //TODO what do do?
+        }
+        prepareSkip(cmnds) {
+            let current = this;
+            
+            // remove vol changes
+            arrayFilterDirect(cmnds,function(c) {
+                if (c instanceof COMMAND_CLASSES.FullScreenYTP) return c.playerId != current.playerId;
                 return true;
             });
         }

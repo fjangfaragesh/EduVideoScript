@@ -450,6 +450,7 @@ function switchToRunMode(editCode) {
     let iframe = document.createElement("iframe");
     iframe.src = EVS_RUN_PATH;
     iframe.className = "iframe";
+    iframe.allowFullscreen = true;
     iframe.onload = function() {
 //      send code to iframe
         iframe.contentWindow.postMessage(JSON.stringify({"command":"loadCode","code":editCode.getLines()}),"*");

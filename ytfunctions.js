@@ -71,6 +71,29 @@ async function waitForYTVTime(player, time) {
     });
 }
 
+async function fullScreenYTP(player) {
+    try {
+        if (player.f.requestFullScreen) {
+            await player.f.requestFullScreen();
+        } else if (player.f.mozRequestFullScreen) {
+            await player.f.mozRequestFullScreen();
+        } else if (player.f.webkitRequestFullScreen) {
+            await player.f.webkitRequestFullScreen();
+        } else {
+            console.log("fullscreen is not supported");
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function exitFullScreenYTP(player) {
+    try {
+        document.exitFullscreen();
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 // waits until the player state is equal to an element in the array states
 async function waitForYTPStates(player, states) {

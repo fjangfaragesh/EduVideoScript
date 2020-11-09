@@ -11,6 +11,8 @@ COMMAND_COLORS.seekYTVideo = "#ffdd44";
 COMMAND_COLORS.changeYTVideo = "#ff66aa";
 COMMAND_COLORS.waitYTVideoTime = "#ffaaaa";
 COMMAND_COLORS.volumneYTPlayer = "#ff44dd";
+COMMAND_COLORS.fullScreenYTPlayer = "#999999";
+COMMAND_COLORS.exitFullScreenYTPlayer = "#eeeeee";
 
 
 // default color
