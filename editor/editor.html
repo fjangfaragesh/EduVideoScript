@@ -13,7 +13,7 @@
 "use strict";
 
 //static HTML elements of editor page
-let GRAPHICAL_HEADER_BUTTON, JSON_HEADER_BUTTON, RUN_HEADER_BUTTON, MAIN_FIELD;
+let FILE_HEADER_BUTTON, GRAPHICAL_HEADER_BUTTON, JSON_HEADER_BUTTON, RUN_HEADER_BUTTON, MAIN_FIELD;
 
 
 let currentEditCode = new EditCode(DEFAULT_PROGRAM);
@@ -22,6 +22,7 @@ let currentEditCode = new EditCode(DEFAULT_PROGRAM);
 
 // load static HTML elements
 function initElements() {
+    FILE_HEADER_BUTTON = document.getElementById("fileHeaderButton");
     GRAPHICAL_HEADER_BUTTON = document.getElementById("graphicalEditorHeaderButton");
     JSON_HEADER_BUTTON = document.getElementById("JSONEditorHeaderButton");
     RUN_HEADER_BUTTON = document.getElementById("runHeaderButton");

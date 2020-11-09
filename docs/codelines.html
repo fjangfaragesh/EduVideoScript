@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Edu Video Script</title>
+    </head> 
+    <body>
+        <h2>Code Line Types</h2>
+        
+        <hr/>
+        <h3>label</h3>
+        Functionality not implemented yet
+        
+        <hr/>
+        <h3>wait</h3>
+        Waits <b>time</b> milliseconds
+        
+        <hr/>
+        <h3>log</h3>
+        Prints message (<b>value</b>) in JavaScript console
+        
+        <hr/>
+        <h3>alert</h3>
+        Opens alert dialog with <b>text</b> and waits until the user clicks on "ok"
+        
+        <hr/>
+        <h3>say</h3>
+        Uses <a href="https://responsivevoice.org">Responsive Voice</a> Text to speach and waits until the speaking is finished.<br/>
+        <b>text</b>: text to say<br/>
+        <b>voice</b>: Responsive Voice name (<a href="https://responsivevoice.org/text-to-speech-languages/">Voice List</a>)<br/>
+        <b>pitch</b>: voice pitch<br/>
+        <b>rate</b>: voice speed<br/>
+        <b>volumne</b> voice volumne
+        
+        <hr/>
+        <h3>openYTPlayer</h3>
+        Opens the youtube Player with a video loaded. The player does not start the video automatically. To start playYTVideo must be called.<br/>
+        <b>playerID</b>: Not implemented, keep this parameter empty!<br/>
+        <b>width</b>,<b>height</b><br/>
+        <b>videoId</b>: Youtube Video id. You can find the videoId in the URL (example: https://www.youtube.com/watch?v=<b><u>NdvtCuu3MDo</u></b>)
+        
+        <hr/>
+        <h3>playYTVideo</h3>
+        Plays the current video in the youtube player.<br/>
+        (You have to run openYTPlayer before)<br/>
+        <b>playerID</b>: Not implemented, keep this parameter empty!<br/>
+        
+        <hr/>
+        <h3>pauseYTVideo</h3>
+        Pauses the current video in the youtube player.<br/>
+        (You have to run openYTPlayer before)<br/>
+        <b>playerID</b>: Not implemented, keep this parameter empty!<br/>
+        
+        <hr/>
+        <h3>seekYTVideo</h3>
+        Seeks to <b>time</b> in youtube Player.<br/>
+        (You have to run openYTPlayer before)<br/>
+        <b>playerID</b>: Not implemented, keep this parameter empty!<br/>
+        
+        <hr/>
+        <h3>changeYTVideo</h3>
+        Changes the youtube Video in the Player<br/>
+        (You have to run openYTPlayer before)<br/>
+        <b>playerID</b>: Not implemented, keep this parameter empty!<br/>
+        <b>videoId</b>: Youtube Video id. You can find the videoId in the URL (example: https://www.youtube.com/watch?v=<b><u>NdvtCuu3MDo</u></b>)
+
+        <hr/>
+        <h3>wairYTVideoTime</h3>
+        Waits until the current play time in youtube player is <b>time</b><br/>
+        (You have to run openYTPlayer before)<br/>
+        <b>playerID</b>: Not implemented, keep this parameter empty!<br/>
+        
+        <hr/>
+        <h3>volumneYTVideo</h3>
+        Changes the <b>volumne</b> in youtube Player.<br/>
+        (You have to run openYTPlayer before)<br/>
+        <b>playerID</b>: Not implemented, keep this parameter empty!<br/>
+    </body>
+</html>

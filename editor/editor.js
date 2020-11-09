@@ -106,6 +106,7 @@ function switchToGraphicalEditor(editCode) {
     MAIN_FIELD.innerHTML = "";
     
     //set style of header buttons (GRAPHICAL_HEADER_BUTTON selected)
+    FILE_HEADER_BUTTON.className = "headerButton";
     GRAPHICAL_HEADER_BUTTON.className = "headerButtonSelected";
     JSON_HEADER_BUTTON.className = "headerButton";
     RUN_HEADER_BUTTON.className = "headerButton";
@@ -271,7 +272,7 @@ function createCodeLineDiv(editCode, index) {
     nameDiv.className = "commandNameDiv";
     nameDiv.style["background-color"] = color;
     nameDiv.draggable = true;
-    nameDiv.appendChild(document.createTextNode(typeName + "\t\t\t (" + index + ")"));
+    nameDiv.appendChild(document.createTextNode(typeName));
     ret.appendChild(nameDiv);
 
     nameDiv.ondragstart = function(ev) {
@@ -406,6 +407,7 @@ function switchToJSONEditor(editCode) {
     MAIN_FIELD.innerHTML = "";
     
     // set style of header buttons (JSON_HEADER_BUTTON selected)
+    FILE_HEADER_BUTTON.className = "headerButton";
     GRAPHICAL_HEADER_BUTTON.className = "headerButton";
     JSON_HEADER_BUTTON.className = "headerButtonSelected";
     RUN_HEADER_BUTTON.className = "headerButton";
@@ -439,6 +441,7 @@ function switchToRunMode(editCode) {
     MAIN_FIELD.innerHTML = "";
     
     // set style of header buttons (RUN_HEADER_BUTTON selected)
+    FILE_HEADER_BUTTON.className = "headerButton";
     GRAPHICAL_HEADER_BUTTON.className = "headerButton";
     JSON_HEADER_BUTTON.className = "headerButton";
     RUN_HEADER_BUTTON.className = "headerButtonSelected";
@@ -458,10 +461,12 @@ function switchToFileOptions(editCode) {
     // clear main field
     MAIN_FIELD.innerHTML = "";
     
-// set style of header buttons (TODO selected)
+// set style of header buttons (FILE_HEADER_BUTTON selected)
+    FILE_HEADER_BUTTON.className = "headerButtonSelected";
     GRAPHICAL_HEADER_BUTTON.className = "headerButton";
     JSON_HEADER_BUTTON.className = "headerButton";
     RUN_HEADER_BUTTON.className = "headerButton";
+    
     
     let hName = document.createElement("h2");
     hName.appendChild(document.createTextNode("Name"));
@@ -531,14 +536,28 @@ function switchToFileOptions(editCode) {
     let createLiaButton = document.createElement("input");
     createLiaButton.type = "button";
     createLiaButton.value = "Generate";
-    createLiaButton.onclick = function() {openLiaWindow(editCode)};
-
+    createLiaButton.onclick = function() {openLiaMakroWindow(editCode)};
     MAIN_FIELD.appendChild(createLiaButton);
 }
-function openLiaWindow(editCode) {
-    let wind = window.open("","LiaScript Makro Call", "LiaScript", "width=500, height=500, top=25, left=25");
-    wind.document.body.appendChild(wind.document.createTextNode("@EduVideoScript.eval(`" + editCode.getLiaJSON() + "`)"));
-//    
+function openLiaMakroWindow(editCode) { 
+//  let wind = window.open("","LiaScript Makro Call", "LiaScript", "width=500, height=500, top=25, left=25");
+//  wind.document.body.appendChild(wind.document.createTextNode("@EduVideoScript.eval(`" + editCode.getLiaJSON() + "`)"));*/
+    MAIN_FIELD.innerHTML = "";
+    
+// set style of header buttons
+    FILE_HEADER_BUTTON.className = "headerButton";
+    GRAPHICAL_HEADER_BUTTON.className = "headerButton";
+    JSON_HEADER_BUTTON.className = "headerButton";
+    RUN_HEADER_BUTTON.className = "headerButton";
+    
+    let textArea = document.createElement("textarea");
+    textArea.value = "@EduVideoScript.eval(`" + editCode.getLiaJSON() + "`)";
+    textArea.spellcheck = false;
+    textArea.className = "liaJsonArea";
+    textArea.readOnly = true;
+    
+    MAIN_FIELD.appendChild(textArea);
+
 }
 
 

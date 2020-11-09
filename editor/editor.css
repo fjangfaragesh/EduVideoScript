@@ -113,6 +113,17 @@ body {
     border: none;
 }
 
+.liaJsonArea {
+    width:100%;
+    background-color:#EEEEEE;
+    color:#000000;
+    font-size:20;
+    flex-grow:2;
+    resize: none;
+    transition:0s;
+    border: none;
+}
+
 .iframe {
     flex-grow:2;
     background-color:#FFFFFF;
